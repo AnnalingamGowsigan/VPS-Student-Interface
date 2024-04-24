@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { UserActions } from "../../Actions/User/UserActions";
 import Swl from "sweetalert2";
 import CaseSelect from "../UI/CaseSelect";
-import img3 from "../../Images/dental_pg.png";
+import img3 from "../../Images/UI_BackGround.jpg";
 import { TimeActions } from "../../Actions/Time/TimeActions.js";
 
 function SignIn() {
@@ -48,7 +48,8 @@ function SignIn() {
     /*global google*/
     google.accounts.id.initialize({
       client_id:
-        "943712076133-fq8m71b1trdlhs6sgvhubp8nhla5pnel.apps.googleusercontent.com",
+        // "943712076133-fq8m71b1trdlhs6sgvhubp8nhla5pnel.apps.googleusercontent.com"
+        "784867083454-spuacei6js25fji5ibsr5vn3cevr88gf.apps.googleusercontent.com",
       callback: handleCallbackResponse,
     });
     google.accounts.id.renderButton(document.getElementById("signInDiv"), {
@@ -61,23 +62,23 @@ function SignIn() {
   if (Object.keys(user).length == 0 || !isSignIn) {
     return (
       <div
-        className="backd"
+        className="background"
         style={{
           backgroundImage: `url(${img3})`,
           height: "100vh",
           marginTop: "0px",
-          fontSize: "50px",
+          fontSize: "18px",
           backgroundSize: "cover",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          color: "#fff", // Changed text color to white for better contrast
         }}
       >
-        <div xs={4} md={12} className="topic1">
-          Virtual Patient Simulator <br />
-        </div>
-        <div xs={4} md={12} className="topic2">
-          for Skill Training in{" "}
-        </div>
-        <div xs={3} md={12} className="topic3">
-          Dentistry
+        <div className="header">
+          <h1>Virtual Patient Simulator</h1>
+          <h2>for Skill Training in Dentistry </h2>
         </div>
         <div className="authent">
           <Button className="relative" id="signInDiv" variant="light"></Button>
@@ -95,27 +96,3 @@ function SignIn() {
 }
 
 export default SignIn;
-/* <Button 
-className= "position-absolute bottom-0 end-0"
- id="signInDiv" variant="light">Sign In2</Button>  */
-
-/*
-        <div className ="app" style={{
-            backgroundImage: `url(${background})`,
-            height:'120vh',
-        marginTop:'-70px',
-        fontSize:'50px',
-        backgroundSize: 'cover',
-            }}>
-              <h3>hello</h3> 
-              <Button  variant="warning">Sign In2</Button> 
-            <div id="signInDiv"></div>
-            {
-                Object.keys(user).length!=0 &&
-                <button onClick={(e)=>handleSignout(e)}>Sign out</button>
-            }
-            {user && <div>
-              <Header1/> 
-                </div>}
-
-*/
