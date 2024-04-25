@@ -698,7 +698,7 @@ const BlackBoxWithButton = ({ unityData, sendMessageToUnity }) => {
     setTimeout(() => {
       setCorrectAnswerMessage("");
     }, 3000);
-    const finalScore = totalScore + (marks.mark1 || 0) + (marks.mark2 || 0);
+    let finalScore = totalScore + (marks.mark1 || 0) + (marks.mark2 || 0);
     if (scoreData && scoreData.score) {
       finalScore += scoreData.score;
     }
@@ -829,6 +829,15 @@ const BlackBoxWithButton = ({ unityData, sendMessageToUnity }) => {
                   <p key={index}>{line}</p>
                 ))}
               </div>
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
               <br />
               <br />
               <br />

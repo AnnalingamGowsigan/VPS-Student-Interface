@@ -102,10 +102,6 @@ const Test = ({onSubmit}) => {
     ]);
   };
 
-  const handleMouseUp = () => {
-    setDrawing(false);
-  };
-
   const handleMouseMove = (e) => {
     if (!drawing) return;
 
@@ -113,103 +109,40 @@ const Test = ({onSubmit}) => {
     const point = stage.getPointerPosition();
     setLines((prevLines) => {
       let lastLine = prevLines[prevLines.length - 1];
-      // add point
       lastLine = {
         ...lastLine,
         points: [...lastLine.points, point.x, point.y],
       };
-
-      // return the new array of lines
       return [...prevLines.slice(0, -1), lastLine];
     });
   };
 
-  const downloadImage = () => {
-    const stage = stageRef.current;
-    const canvas = stage.toCanvas(); // Get the canvas element from your stage reference
-
-    // Get the 2D context of the canvas
-    const context = canvas.getContext("2d");
-
-    // Get the image data from the context
-    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-    const data = imageData.data;
-
-    // Convert each pixel to black or white
-    for (let i = 0; i < data.length; i += 4) {
-      const average = (data[i] + data[i + 1] + data[i + 2]) / 3;
-      const threshold = 128; // Midpoint between 0 and 255
-      const color = average > threshold ? 255 : 0;
-      data[i] = color; // red
-      data[i + 1] = color; // green
-      data[i + 2] = color; // blue
-      // data[i + 3] is the alpha and does not need to be changed
-    }
-
-    // Put the black and white image data back to the context
-    context.putImageData(imageData, 0, 0);
-
-    // Convert the updated canvas to a data URL
-    const dataURL = canvas.toDataURL();
-
-    // Create a dummy link element
-    const link = document.createElement("a");
-    link.href = dataURL;
-    link.download = "user-drawing-black-and-white.png"; // Set the download filename
-    document.body.appendChild(link);
-    link.click(); // Simulate a click on the link
-    document.body.removeChild(link); // Remove the dummy link
+  const handleMouseUp = () => {
+    setDrawing(false);
   };
+
   const handleSubmit = () => {
     const stage = stageRef.current;
-    const canvas = stage.toCanvas(); // Get the canvas element from your stage reference
-
-    // Get the 2D context of the canvas
-    const context = canvas.getContext("2d");
-
-    // Get the image data from the context
-    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-    const data = imageData.data;
-
-    // Convert each pixel to black or white
-    for (let i = 0; i < data.length; i += 4) {
-      const average = (data[i] + data[i + 1] + data[i + 2]) / 3;
-      const threshold = 128; // Midpoint between 0 and 255
-      const color = average > threshold ? 255 : 0;
-      data[i] = color; // red
-      data[i + 1] = color; // green
-      data[i + 2] = color; // blue
-      // data[i + 3] is the alpha channel (transparency) and does not need to be changed
-    }
-
-    // Put the modified image data back to the context
-    context.putImageData(imageData, 0, 0);
-
-    // Convert the updated canvas to a data URL
+    const canvas = stage.toCanvas(); // Get the canvas element from the Konva Stage
     canvas.toBlob((blob) => {
-      // Now we have the blob, we can send it to the server
-      handleCompareImages(blob,onSubmit);
-    });
+      onSubmit(blob); // Assuming onSubmit is a prop function that handles the submission
+    }, 'image/png'); // Specify the image format and quality if needed
   };
 
+
   const handleColorChange = (event) => {
-    // Turn off eraser when selecting a color
     setEraser(false);
     setColor(event.target.value);
   };
 
   const handleEraserToggle = () => {
-    // Toggle eraser mode
     setEraser(!eraser);
-    // Optionally, you might want to change the brush color back to black or any other color when eraser is turned off
-    if (eraser) {
-      setColor("black");
-    }
   };
 
   const handleToolSizeChange = (event) => {
     setToolSize(event.target.value);
   };
+
   return (
     <div
       style={{
@@ -336,7 +269,7 @@ const Test = ({onSubmit}) => {
           Submit
         </button>
       </div>
-    </div>
+      </div>
   );
 };
 
