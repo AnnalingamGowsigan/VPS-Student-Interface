@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import background from "../../Images/DentistryBackgound.jpg";
-import React, { useContext, useEffect, useState, Fragment } from "react";
+import React, {useContext, useEffect, useState, Fragment, useRef} from "react";
 import { useSelector } from "react-redux";
 import "./Case.css";
 import Card from "@mui/material/Card";
@@ -64,7 +64,7 @@ const questions = {
       image:
         "https://firebasestorage.googleapis.com/v0/b/vitual-patient.appspot.com/o/Cases%2FC001%2FpointToothC001.jfif?alt=media&token=c2071e16-4945-4106-841c-34f5fe72265c",
       cat: "complaint",
-      id: "35",
+      id: "1",
     },
     {
       q: "How many days have you had pain on the tooth?",
@@ -72,14 +72,14 @@ const questions = {
       image: "",
       correctness: true,
       a: "Three days",
-      id: "5",
+      id: "2",
     },
     {
       a: "Yes. Sometimes get earache",
       cat: "complaint",
       q: "Does the pain radiate?",
       correctness: true,
-      id: "10",
+      id: "3",
       image: "",
     },
     {
@@ -88,11 +88,11 @@ const questions = {
       correctness: true,
       cat: "complaint",
       q: "Have you had any pain before?",
-      id: "6",
+      id: "4",
     },
     {
       cat: "complaint",
-      id: "41",
+      id: "5",
       correctness: false,
       q: "Have you got any restorations done on that tooth?",
       image: "",
@@ -102,7 +102,7 @@ const questions = {
       correctness: true,
       q: "Do you have pain when biting on that tooth?",
       a: "Yes difficult to eat from that side",
-      id: "8",
+      id: "6",
       image: "",
       cat: "complaint",
     },
@@ -110,7 +110,7 @@ const questions = {
       image: "",
       a: "I bought some tablets from the pharmacy. But the pain did not reduce much",
       cat: "complaint",
-      id: "11",
+      id: "7",
       q: "Have you taken any treatments before for the pain?",
       correctness: true,
     },
@@ -118,7 +118,7 @@ const questions = {
       correctness: false,
       image: "",
       a: "Don't know",
-      id: "40",
+      id: "8",
       q: "Is it on a molar tooth?",
       cat: "complaint",
     },
@@ -127,7 +127,7 @@ const questions = {
       a: "No",
       q: "Do you have pain on percussion?",
       correctness: false,
-      id: "7",
+      id: "9",
       cat: "complaint",
     },
     {
@@ -137,7 +137,7 @@ const questions = {
       image:
         "https://firebasestorage.googleapis.com/v0/b/vitual-patient.appspot.com/o/Cases%2FC001%2FpointToothC001.jfif?alt=media&token=c2071e16-4945-4106-841c-34f5fe72265c",
       cat: "complaint",
-      id: "35",
+      id: "10",
     },
     // More items would be here...
   ],
@@ -148,18 +148,18 @@ const questions = {
       a: "A normal toothbrush",
       q: "What is the brush type you use?",
       correctness: true,
-      id: "18",
+      id: "11",
     },
     {
       correctness: true,
       cat: "plaque",
-      id: "20",
+      id: "12",
       q: "Do you use toothpaste?",
       a: "Yes",
       image: "",
     },
     {
-      id: "21",
+      id: "13",
       a: "I am not sure",
       image: "",
       cat: "plaque",
@@ -171,12 +171,12 @@ const questions = {
       a: "I brush with toothpaste ",
       q: "How do you clean your mouth?",
       image: "",
-      id: "3",
+      id: "14",
       cat: "plaque",
     },
     {
       correctness: true,
-      id: "17",
+      id: "15",
       image: "",
       cat: "plaque",
       q: "How many times do you brush per day?",
@@ -184,7 +184,7 @@ const questions = {
     },
     {
       correctness: true,
-      id: "22",
+      id: "16",
       image: "",
       cat: "plaque",
       q: "Do you use any other tools other than the toothbrush to clean the mouth?",
@@ -195,7 +195,7 @@ const questions = {
       a: "I am not sure",
       correctness: true,
       image: "",
-      id: "19",
+      id: "17",
       q: "What is the bristle type of the toothbrush?",
     },
     {
@@ -215,21 +215,13 @@ const questions = {
       cat: "dhistory",
       correctness: true,
       q: "When do you usually eat sugary or sweet foods?",
-      id: "24",
-    },
-    {
-      id: "24",
-      a: "When hungry in between meals Eat biscuits with tea in the evening",
-      cat: " dhistory",
-      correctness: true,
-      q: "When do you usually eat sugary or sweet foods?",
-      image: "",
+      id: "19",
     },
     {
       a: "Most of the days yes",
       cat: "dhistory",
       correctness: true,
-      id: "23",
+      id: "21",
       q: "Do you eat sugary food/sweets daily?",
       image: "",
     },
@@ -242,12 +234,12 @@ const questions = {
       a: "no",
       cat: "medicalH",
       correctness: true,
-      id: "4",
+      id: "22",
       image: "",
     },
     {
       a: "no",
-      id: "15",
+      id: "23",
       cat: "medicalH",
       q: "Do you have any allergies? ",
       image: "",
@@ -255,7 +247,7 @@ const questions = {
     },
     {
       image: "",
-      id: "14",
+      id: "24",
       cat: "medicalH",
       correctness: true,
       q: "Are you taking regular drugs for any disease?",
@@ -266,13 +258,13 @@ const questions = {
       cat: "medicalH",
       correctness: true,
       image: "",
-      id: "13",
+      id: "25",
       a: "no",
     },
   ],
   habits: [
     {
-      id: "2",
+      id: "26",
       correctness: true,
       a: "no",
       cat: "habits",
@@ -285,21 +277,21 @@ const questions = {
       cat: "habits",
       q: "Do you smoke or use any form of tobacco?",
       correctness: true,
-      id: "1",
+      id: "27",
     },
     {
       image: "",
       a: "no",
       q: "Do you drink alcohol?",
       cat: "habits",
-      id: "0",
+      id: "28",
       correctness: true,
     },
   ],
   shistory: [
     {
       cat: "shistory",
-      id: "30",
+      id: "29",
       image: "",
       q: "Are you doing a job?",
       a: "Yes doing business. Have a grocery shop",
@@ -309,7 +301,7 @@ const questions = {
   pretreate: [
     {
       q: "What dental treatments have you had before?",
-      id: "28",
+      id: "30",
       cat: "pretreate",
       image: "",
       a: "Teeth cleaning and fillings. Could not attend a dental clinic for a long time",
@@ -340,6 +332,7 @@ function CaseDesc() {
 
   const [selectedQ, setSelectedQ] = useState([]);
   const [selectedQIds, setSelectedQIds] = useState([]);
+  const endOfContentRef = useRef(null);
 
   const handleSection = (eventKey) => {
     // Set the selected section state
@@ -423,6 +416,10 @@ function CaseDesc() {
     navigate("/caseSelect");
   };
 
+  useEffect(() => {
+    endOfContentRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [selectedQ]);
+
   return (
     <div
       className="app"
@@ -441,98 +438,89 @@ function CaseDesc() {
       <div></div>
       <div className="phtopic1">Patient History Taking</div>
 
-      <div className="phtopic2">Case ID: {selectedCaseDetails.caseId}</div>
-      {/* three colomn grid */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "20px 1fr 20px",
-          gridGap: 20,
-        }}
-      >
-        <div className="left-column"></div>
-        <div className="middle-column">
-          <div className="phcardDesc">
-            <Card sx={{ maxWidth: 800 }}>
+      <div className="phtopic2">Case {selectedCaseDetails.name}: {selectedCaseDetails.description}</div>
+
+      <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+        <hr style={{ borderTop: '3px solid #bbb' }} />
+      </div>
+
+      <Grid container spacing={0}>
+        {/* Left half of the screen */}
+        <Grid item xs={4}>
+            {/*instruction card*/}
+            <Card
+                sx={{
+                  maxWidth: 500,
+                  maxHeight: 1000,
+                  elevation: 3,
+                  backgroundColor: "#645bea", // setting light blue background
+                  marginLeft: "20px",
+                }}
+            >
               <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="150"
-                  alt="Case Description"
-                  image={selectedCaseDetails.frontImage}
-                />
-                <CardContent>
-                  <div className="case">Case {selectedCaseDetails.name}</div>
-                  <div className="casedes">
-                    {selectedCaseDetails.description}
-                  </div>
+                <CardContent
+                    sx={{
+                      maxHeight: 500,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center", // centering content horizontally
+                    }}
+                >
+                  <Card
+                      className="choose"
+                      sx={{
+                        maxWidth: 450,
+                        maxHeight: 400,
+                        // backgroundColor: "#C3C6C4",
+                        p: 2,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center", // centering content horizontally
+                      }}
+                  >
+                    <Typography variant="h5" fontWeight="bold" gutterBottom>
+                      Instructions:
+                    </Typography>
+                    <List>
+                      <ListItem>
+                        <Typography variant="body1">
+                          Select the sections according to the correct order of
+                          patient examination.
+                        </Typography>
+                      </ListItem>
+                      <ListItem>
+                        <Typography variant="body1">
+                          From each section, select only the relevant questions.
+                        </Typography>
+                      </ListItem>
+                      <ListItem>
+                        <Typography variant="body1">
+                          Wrong section order and irrelevant questions will carry
+                          negative marks.
+                        </Typography>
+                      </ListItem>
+                      <ListItem>
+                        <Typography variant="body1">
+                          Click next (Scroll down) after completing the conversation.
+                        </Typography>
+                      </ListItem>
+                    </List>
+                  </Card>
                 </CardContent>
               </CardActionArea>
             </Card>
-          </div>
-          <Card
-            sx={{
-              maxWidth: 500,
-              maxHeight: 1000,
-              elevation: 3,
-              backgroundColor: "#645bea", // setting light blue background
-            }}
-          >
-            <CardActionArea>
-              <CardContent
-                sx={{
-                  maxHeight: 500,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center", // centering content horizontally
-                }}
-              >
-                <Card
-                  className="choose"
-                  sx={{
-                    maxWidth: 450,
-                    maxHeight: 400,
-                    // backgroundColor: "#C3C6C4",
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center", // centering content horizontally
-                  }}
-                >
-                  <Typography variant="h5" fontWeight="bold" gutterBottom>
-                    Instructions:
-                  </Typography>
-                  <List>
-                    <ListItem>
-                      <Typography variant="body1">
-                        Select the sections according to the correct order of
-                        patient examination.
-                      </Typography>
-                    </ListItem>
-                    <ListItem>
-                      <Typography variant="body1">
-                        From each section, select only the relevant questions.
-                      </Typography>
-                    </ListItem>
-                    <ListItem>
-                      <Typography variant="body1">
-                        Wrong section order and irrelevant questions will carry
-                        negative marks.
-                      </Typography>
-                    </ListItem>
-                  </List>
-                </Card>
-              </CardContent>
-            </CardActionArea>
-          </Card>
+            {/*instruction card*/}
+
+
           <div>
-            <Grid container spacing={2}>
+
+            <Grid container style={{marginLeft:"1px"}}>
               <Grid Item xs={6}>
                 <Dropdown
-                  className="phddown1"
-                  title="Select the Section"
-                  id="dropdown-menu-align-right"
-                  onSelect={handleSection}
+                    className="phddown1"
+                    title="Select the Section"
+                    id="dropdown-menu-align-right"
+                    onSelect={handleSection}
                 >
                   <Dropdown.Toggle variant="success" id="dropdown-basic">
                     Select the section
@@ -552,9 +540,9 @@ function CaseDesc() {
                       Plaque control
                     </Dropdown.Item>
                     {selectedCaseDetails.caseId == "C001" ? (
-                      <Dropdown.Item eventKey="pretreate">
-                        Previous dental treatments
-                      </Dropdown.Item>
+                        <Dropdown.Item eventKey="pretreate">
+                          Previous dental treatments
+                        </Dropdown.Item>
                     ) : null}
                     <Dropdown.Item eventKey="shistory">
                       Social history
@@ -565,178 +553,242 @@ function CaseDesc() {
               <Grid Item xs={6}>
                 <div className="phddown2">
                   <DropdownButton
-                    className="ddown1"
-                    alignRight
-                    title="Select the question"
-                    id="dropdown-menu-align-right1"
-                    onSelect={handleSelect}
-                    variant="success"
+                      className="ddown1"
+                      alignRight
+                      title="Select the question"
+                      id="dropdown-menu-align-right1"
+                      onSelect={handleSelect}
+                      variant="success"
                   >
                     {questionsForDropdown.map((question, index) => (
-                      <Dropdown.Item eventKey={question.id} key={question.id}>
-                        {question.q}
-                      </Dropdown.Item>
+                        <Dropdown.Item eventKey={question.id} key={question.id}>
+                          {question.q}
+                        </Dropdown.Item>
                     ))}
                   </DropdownButton>
                 </div>
               </Grid>
             </Grid>
+
           </div>
           <div className="phsect2" style={{ fontSize: "60px" }}>
             {Section === "complaint" ? (
-              <div className="phsect2">History of the presenting complaint</div>
+                <div className="phsect2">History of the presenting complaint</div>
             ) : null}
             {Section === "habits" ? (
-              <div className="phsect2">Habits</div>
+                <div className="phsect2">Habits</div>
             ) : null}
             {Section === "medicalH" ? (
-              <div className="phsect2">Medical history</div>
+                <div className="phsect2">Medical history</div>
             ) : null}
             {Section === "plaque" ? (
-              <div className="phsect2">Plaque control</div>
+                <div className="phsect2">Plaque control</div>
             ) : null}
             {Section === "dhistory" ? (
-              <div className="phsect2">Dietary history</div>
+                <div className="phsect2">Dietary history</div>
             ) : null}
             {Section === "pretreate" ? (
-              <div className="phsect2">Previous dental treatments</div>
+                <div className="phsect2">Previous dental treatments</div>
             ) : null}
             {Section === "shistory" ? (
-              <div className="phsect2">Social history</div>
+                <div className="phsect2">Social history</div>
             ) : null}
           </div>
-          {/* <div className="phsect1">
-            <Grid container spacing={5}>
-              <Grid Item xs={5}>
-                <div className="phcardsd">
-                  <div sx={{ maxWidth: 600, maxHeight: 1000 }}></div>
-                </div>
-              </Grid>
-              <Grid Item xs={7}></Grid>
+        </Grid>
+        {/* Right half of the screen */}
+        <Grid item xs={8}>
+          <Grid container >
+            <Grid item xs={0.5}>
+                  <img
+                      className="docimage"
+                      src={imagedoc}
+                      style={{
+                        width: "200px",
+                        height: "200px",
+                      }}
+                      alt="Doctor gif"
+                  />
             </Grid>
-          </div> */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 800px 1fr",
-              gridGap: 20,
-            }}
-          >
-            <div className="left-column1">
-              {selectedQ && selectedQ.length > 0 ? (
-                <img
-                  className="docimage"
-                  src={imagedoc}
-                  style={{
-                    width: "200px",
-                    height: "200px",
-                    marginRight: "-200px",
-                  }}
-                  alt="Doctor gif"
-                />
-              ) : null}
-            </div>
-            <div className="middle-column1">
+            <Grid item xs={11}>
               <div className="phqna">
-                <Card sx={{ maxWidth: 740 }}>
+                <Card sx={{ Width: 500 }}>
                   <CardActionArea>
                     <CardHeader
-                      title="Conversation"
-                      style={{ textAlign: "center" }}
+                        title="Conversation"
+                        style={{ textAlign: "center" }}
                     />
                     <CardMedia height="500" alt="Case Description" />
                     <CardContent
-                      style={{ display: "flex", flexDirection: "column" }}
+                        style={{ display: "flex", flexDirection: "column", height: "500px", overflowY: 'auto' }}
                     >
+                      <div style={{ marginBottom: "16px" }} >
+                        {" "}
+                        {/* Gap between each Q&A set */}
+                        {/* Question */}
+                        <div
+                            style={{
+                              textAlign: "left",
+                              display: "flex",
+                              justifyContent: "flex-start",
+                              marginBottom: "8px", // Gap between the question and answer
+                            }}
+                        >
+                          <div
+                              style={{
+                                backgroundColor: "#e1ffc7", // Light green bubble for the question
+                                borderRadius: "12px 12px 12px 0", // Rounded corners except top-right
+                                padding: "8px 12px",
+                                maxWidth: "80%", // To ensure the bubble doesn't span the full width
+                                wordBreak: "break-word", // Break words to prevent overflow
+                              }}
+                          >
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                            >
+                              <Typed
+                                  strings={["Hello, Leah!"]}
+                                  typeSpeed={40}
+                              />
+                            </Typography>
+                          </div>
+                        </div>
+                        {/* Answer */}
+                        <div
+                            style={{
+                              textAlign: "right",
+                              display: "flex",
+                              justifyContent: "flex-end",
+                            }}
+                        >
+                          <div
+                              style={{
+                                backgroundColor: "#d9edfd", // Light blue bubble for the answer
+                                borderRadius: "12px 12px 0 12px", // Rounded corners except bottom-right
+                                padding: "8px 12px",
+                                maxWidth: "80%", // To ensure the bubble doesn't span the full width
+                                wordBreak: "break-word", // Break words to prevent overflow
+                              }}
+                          >
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                            >
+                              <Typed
+                                  strings={["Hello, Doctor!"]}
+                                  typeSpeed={40}
+                                  startDelay={2000}
+                              />
+                            </Typography>
+                          </div>
+                        </div>
+                      </div>
                       {/* Display the contents of selectedQ */}
                       {selectedQ &&
-                        selectedQ.map((question) => (
-                          <div
-                            key={question.id}
-                            style={{ marginBottom: "16px" }}
-                          >
-                            {" "}
-                            {/* Gap between each Q&A set */}
-                            {/* Question */}
-                            <div
-                              style={{
-                                textAlign: "left",
-                                display: "flex",
-                                justifyContent: "flex-start",
-                                marginBottom: "8px", // Gap between the question and answer
-                              }}
-                            >
+                          selectedQ.map((question) => (
                               <div
-                                style={{
-                                  backgroundColor: "#e1ffc7", // Light green bubble for the question
-                                  borderRadius: "12px 12px 12px 0", // Rounded corners except top-right
-                                  padding: "8px 12px",
-                                  maxWidth: "80%", // To ensure the bubble doesn't span the full width
-                                  wordBreak: "break-word", // Break words to prevent overflow
-                                }}
+                                  key={question.id}
+                                  style={{ marginBottom: "16px" }}
                               >
-                                <Typography
-                                  variant="body2"
-                                  color="text.secondary"
+                                {" "}
+                                {/* Gap between each Q&A set */}
+                                {/* Question */}
+                                <div
+                                    style={{
+                                      textAlign: "left",
+                                      display: "flex",
+                                      justifyContent: "flex-start",
+                                      marginBottom: "8px", // Gap between the question and answer
+                                    }}
                                 >
-                                  <Typed
-                                    strings={[question.q]}
-                                    typeSpeed={40}
-                                  />
-                                </Typography>
-                              </div>
-                            </div>
-                            {/* Answer */}
-                            <div
-                              style={{
-                                textAlign: "right",
-                                display: "flex",
-                                justifyContent: "flex-end",
-                              }}
-                            >
-                              <div
-                                style={{
-                                  backgroundColor: "#d9edfd", // Light blue bubble for the answer
-                                  borderRadius: "12px 12px 0 12px", // Rounded corners except bottom-right
-                                  padding: "8px 12px",
-                                  maxWidth: "80%", // To ensure the bubble doesn't span the full width
-                                  wordBreak: "break-word", // Break words to prevent overflow
-                                }}
-                              >
-                                <Typography
-                                  variant="body2"
-                                  color="text.secondary"
+                                  <div
+                                      style={{
+                                        backgroundColor: "#e1ffc7", // Light green bubble for the question
+                                        borderRadius: "12px 12px 12px 0", // Rounded corners except top-right
+                                        padding: "8px 12px",
+                                        maxWidth: "80%", // To ensure the bubble doesn't span the full width
+                                        wordBreak: "break-word", // Break words to prevent overflow
+                                      }}
+                                  >
+                                    <Typography
+                                        variant="body2"
+                                        color="text.secondary"
+                                    >
+                                      <Typed
+                                          strings={[question.q]}
+                                          typeSpeed={40}
+                                      />
+                                    </Typography>
+                                  </div>
+                                </div>
+                                {/* Answer */}
+                                <div
+                                    style={{
+                                      textAlign: "right",
+                                      display: "flex",
+                                      justifyContent: "flex-end",
+                                    }}
                                 >
-                                  <Typed
-                                    strings={[question.a]}
-                                    typeSpeed={40}
-                                    startDelay={2000}
-                                  />
-                                </Typography>
+                                  <div
+                                      style={{
+                                        backgroundColor: "#d9edfd", // Light blue bubble for the answer
+                                        borderRadius: "12px 12px 0 12px", // Rounded corners except bottom-right
+                                        padding: "8px 12px",
+                                        maxWidth: "80%", // To ensure the bubble doesn't span the full width
+                                        wordBreak: "break-word", // Break words to prevent overflow
+                                      }}
+                                  >
+                                    <Typography
+                                        variant="body2"
+                                        color="text.secondary"
+                                    >
+                                      <Typed
+                                          strings={[question.a]}
+                                          typeSpeed={40}
+                                          startDelay={2000}
+                                      />
+                                    </Typography>
+                                  </div>
+                                  <div ref={endOfContentRef}></div>
+                                </div>
                               </div>
-                            </div>
-                          </div>
-                        ))}
+                          ))}
                     </CardContent>
                   </CardActionArea>
                 </Card>
               </div>
-            </div>
+            </Grid>
 
-            <div className="right-column1">
-              {selectedQ && selectedQ.length > 0 ? (
-                <img
-                  className="petimage"
-                  src={imagepet}
-                  style={{ width: "200px", height: "200px" }}
-                  alt="patient gif"
-                />
-              ) : null}
-            </div>
-          </div>
-        </div>
-        <div className="right-column"></div>
+            <Grid item xs={0.5}>
+                  <img
+                      className="petimage"
+                      src={imagepet}
+                      style={{ width: "200px", height: "200px" }}
+                      alt="patient gif"
+                  />
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+        <hr style={{ borderTop: '3px solid #bbb' }} />
       </div>
+
+
       <div
         style={{
           marginTop: "20px",
