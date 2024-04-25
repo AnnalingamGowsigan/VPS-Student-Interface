@@ -37,7 +37,7 @@
   align-self: center;
   padding-left: 50px;
   padding-right: 50px;
-  max-width: "50rem";
+  max-width: 50rem;
   padding-top: 20px;
 }
 
@@ -53,15 +53,15 @@
   text-align: center;
   align-self: center;
   padding-left: 300px;
-  max-width: "200px";
-  height: "1000px";
+  max-width: 200px;
+  height: 1000px;
 }
 
 .phcardDesc {
   padding-top: 50px;
   text-align: center;
   align-self: center;
-  max-width: "100rem";
+  max-width: 100rem;
 }
 
 .choose {

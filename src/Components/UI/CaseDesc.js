@@ -605,6 +605,7 @@ function CaseDesc() {
                       style={{
                         width: "200px",
                         height: "200px",
+                        marginLeft: "-125px"
                       }}
                       alt="Doctor gif"
                   />
