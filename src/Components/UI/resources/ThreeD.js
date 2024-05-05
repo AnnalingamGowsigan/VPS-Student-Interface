@@ -1,13 +1,12 @@
 import React, { useCallback } from "react";
 import { Unity, useUnityContext } from "react-unity-webgl";
 
-function ThreeD({ onUnityData, onSendMessageToUnity }) {
+function ThreeD({ onUnityData, onSendMessageToUnity,}) {
   const { unityProvider, loadingProgression, isLoaded } = useUnityContext({
-    loaderUrl: "https://vps-2024-2715c.web.app/assets/Build/WEBGL.loader.js",
-    dataUrl: "https://vps-2024-2715c.web.app/assets/Build/WEBGL.data",
-    frameworkUrl:
-      "https://vps-2024-2715c.web.app/assets/Build/WEBGL.framework.js",
-    codeUrl: "https://vps-2024-2715c.web.app/assets/Build/WEBGL.wasm",
+    loaderUrl: "/assets/Build/webgl.loader.js",
+    dataUrl: "/assets/Build/webgl.data",
+    frameworkUrl: "/assets/Build/webgl.framework.js",
+    codeUrl: "/assets/Build/webgl.wasm",
   });
 
   // Function to be called from Unity

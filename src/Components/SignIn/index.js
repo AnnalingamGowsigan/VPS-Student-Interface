@@ -48,7 +48,7 @@ function SignIn() {
     /*global google*/
     google.accounts.id.initialize({
       client_id:
-        "943712076133-fq8m71b1trdlhs6sgvhubp8nhla5pnel.apps.googleusercontent.com",
+        "784867083454-spuacei6js25fji5ibsr5vn3cevr88gf.apps.googleusercontent.com",
       // "784867083454-spuacei6js25fji5ibsr5vn3cevr88gf.apps.googleusercontent.com",
       callback: handleCallbackResponse,
     });
