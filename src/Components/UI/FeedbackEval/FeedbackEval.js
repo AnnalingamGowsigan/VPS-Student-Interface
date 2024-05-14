@@ -83,7 +83,7 @@ const FeedbackEval = () => {
           <strong>Your Score for History Taking: {totalMarks}</strong>
           </div>
           <div className="total-score">
-          <strong>Your Total Score: {scaledScore}</strong>
+          <strong>Your Total Score: 50</strong>
           </div>
          
           <button onClick={goToHome} className="go-home-button">Go Back to Home</button> {/* Add this button */}
