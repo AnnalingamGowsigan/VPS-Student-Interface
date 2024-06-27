@@ -2,21 +2,43 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { createStore, applyMiddleware, compose } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from './Reducers';
-import { Provider } from 'react-redux'
-import thunk from 'redux-thunk'
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 import { reduxFirestore, getFirestore } from 'redux-firestore';
 import { reactReduxFirebase, getFirebase } from 'react-redux-firebase';
-import Config from './Config/Config'
+import Config from './Config/Config';
+import { persistStore, persistReducer } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 const initialState = {};
 
-const store = createStore(rootReducer, initialState,
-  compose(
-    applyMiddleware(thunk.withExtraArgument({getFirebase, getFirestore})),
-    reactReduxFirebase(Config), // redux binding for firebase
-    reduxFirestore(Config) // redux bindings for firestore
-  )
+const store = createStore(
+    persistedReducer,
+    initialState,
+    compose(
+        applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
+        reactReduxFirebase(Config), // redux binding for firebase
+        reduxFirestore(Config) // redux bindings for firestore
+    )
 );
 
-ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
+const persistor = persistStore(store);
+
+ReactDOM.render(
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
+    </Provider>,
+    document.getElementById('root')
+);

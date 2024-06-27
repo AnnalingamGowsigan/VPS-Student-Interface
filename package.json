@@ -32,6 +32,7 @@
     "react-unity-webgl": "^9.4.3",
     "redux": "^4.2.0",
     "redux-firestore": "^1.0.0",
+    "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.1",
     "slick-carousel": "^1.8.1",
     "sweetalert2": "^11.6.7",
