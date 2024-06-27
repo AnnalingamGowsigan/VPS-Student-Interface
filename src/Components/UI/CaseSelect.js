@@ -1,136 +1,76 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import "./Case.css";
-import { useNavigate, Link } from "react-router-dom";
-import { styled } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
-import firebase from "../../Config/Config";
+import { useNavigate } from "react-router-dom";
+import { Grid, Paper, Container, Typography } from "@mui/material";
 import img3 from "../../Images/newBack.jpg";
 import Navbar from "../Navbar";
 import CaseCard from "./caseSelect/CaseCard";
 import { CaseActions } from "../../Actions/Case/CaseActions";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
-
-function SamplePrevArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{
-        ...style,
-        display: "block",
-        background: "transparent",
-        width: "40px",
-        height: "40px",
-        zIndex: 1000,
-        left: "0px",
-      }}
-      onClick={onClick}
-    />
-  );
-}
-
-function SampleNextArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{
-        ...style,
-        display: "block",
-        background: "transparent",
-        width: "40px",
-        height: "40px",
-        zIndex: 5,
-        right: "-5px",
-      }}
-      onClick={onClick}
-    />
-  );
-}
+import BASE_URL from "../../config"; // Adjust the path as necessary
 
 function CaseSelect() {
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(0.5),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  }));
-  const { userInfomation } = useSelector((state) => state.user);
-  const { allCaseData } = useSelector((state) => state.caseSelected);
+    const { userInfomation } = useSelector((state) => state.user);
+    const { allCaseData } = useSelector((state) => state.caseSelected);
 
-  const navigate = useNavigate();
-  const [cases, setCase] = useState([]);
-  const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [cases, setCase] = useState([]);
+    const dispatch = useDispatch();
 
-  const handleClick = () => {
-    console.log("  button clicked");
-    navigate("/historyTaking");
-  };
-  const settings = {
-    centerMode: true,
-    infinite: true,
-    centerPadding: "0",
-    slidesToShow: 3,
-    speed: 500,
-    focusOnSelect: true,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
+    const handleClick = () => {
+        console.log("button clicked");
+        navigate("/historyTaking");
+    };
 
-    // Add other settings as needed
-  };
+    useEffect(() => {
+        fetchCase();
+    }, []);
 
-  useEffect(() => {
-    fetchCase();
-  }, []);
+    const fetchCase = async () => {
+        try {
+            const response = await axios.get(`${BASE_URL}dentalComplaintCases/getAllCases`);
+            const qArray = response.data;
+            console.log(qArray);
+            if (cases.length < qArray.length) {
+                setCase(qArray);
+                dispatch(CaseActions.setAllCases(qArray));
+            }
+        } catch (error) {
+            console.error("Error fetching cases:", error);
+        }
+    };
 
-  const fetchCase = async () => {
-    const snapshot = await firebase.firestore().collection("Cases").get();
-    const qArray = snapshot.docs.map((doc) => doc.data());
-    console.log(qArray);
-    if (cases.length < qArray.length) {
-      setCase(qArray);
-      dispatch(CaseActions.setAllCases(qArray));
-    }
-
-    console.log(cases);
-  };
-  console.log(userInfomation.name);
-  return (
-    <div
-      className="app"
-      style={{
-        backgroundImage: `url(${img3})`,
-        backgroundSize: "cover", // Make sure the background covers the entire component
-        backgroundPosition: "center", // Center the background image
-        backgroundRepeat: "no-repeat", // Do not repeat the background image
-        height: "100vh", // Take up the full height of the viewport
-        width: "100vw", // Take up the full width of the viewport
-        marginTop: "0px",
-        fontSize: "50px",
-      }}
-    >
-      <div className="navText">
-        <Navbar />
-      </div>
-
-      <div className="cstopic1">Case Selection</div>
-      <div className="CScases">
-        <Slider {...settings}>
-          {cases.map(function (object) {
-            return (
-              <div className="CScards">
-                <CaseCard caseSelectedInUI={object} />
-              </div>
-            );
-          })}
-        </Slider>
-      </div>
-    </div>
-  );
+    return (
+        <div
+            className="app"
+            style={{
+                backgroundImage: `url(${img3})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                minHeight: "100vh",
+                width: "100vw",
+                marginTop: "0px",
+                fontSize: "50px",
+            }}
+        >
+            <Navbar />
+            <Container>
+                <Typography variant="h3" component="div" align="center" color="white" gutterBottom>
+                    Case Selection
+                </Typography>
+                <Grid container spacing={3}>
+                    {cases.map((object) => (
+                        <Grid item xs={12} sm={6} md={4} key={object.caseId}>
+                            <Paper elevation={3}>
+                                <CaseCard caseSelectedInUI={object} />
+                            </Paper>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Container>
+        </div>
+    );
 }
 
 export default CaseSelect;
