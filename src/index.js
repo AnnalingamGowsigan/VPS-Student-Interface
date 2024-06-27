@@ -11,7 +11,8 @@ import { reactReduxFirebase, getFirebase } from 'react-redux-firebase';
 import Config from './Config/Config';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
-import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import storage from 'redux-persist/lib/storage';
+import {CaseProvider} from "./context/CaseContext"; // defaults to localStorage for web
 
 const persistConfig = {
   key: 'root',
@@ -37,7 +38,9 @@ const persistor = persistStore(store);
 ReactDOM.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <App />
+          <CaseProvider>
+            <App />
+          </CaseProvider>
       </PersistGate>
     </Provider>,
     document.getElementById('root')

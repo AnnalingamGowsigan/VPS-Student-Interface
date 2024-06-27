@@ -48,15 +48,12 @@ function CaseSelect() {
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
-                minHeight: "100vh",
-                width: "100vw",
                 marginTop: "0px",
-                fontSize: "50px",
             }}
         >
             <Navbar />
             <Container>
-                <Typography variant="h3" component="div" align="center" color="white" gutterBottom>
+                <Typography variant="h3" component="div" align="center" color="white" gutterBottom marginTop={'20px'} marginBottom={'20px'}>
                     Case Selection
                 </Typography>
                 <Grid container spacing={3}>

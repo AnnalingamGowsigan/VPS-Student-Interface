@@ -1,14 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import React, { useContext } from 'react';
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
-import { CaseActions } from '../../../Actions/Case/CaseActions';
+import { useNavigate } from 'react-router-dom';
+import { CaseContext } from '../../../context/CaseContext'
 
 const CaseCard = ({ caseSelectedInUI }) => {
-    const dispatch = useDispatch();
+    const { setSelectedCaseDetails } = useContext(CaseContext);
+    const navigate = useNavigate();
 
     const handleClick = () => {
-        dispatch(CaseActions.setSelectedCase(caseSelectedInUI));
+        setSelectedCaseDetails(caseSelectedInUI);
+        navigate("/historyTaking");
     };
 
     return (

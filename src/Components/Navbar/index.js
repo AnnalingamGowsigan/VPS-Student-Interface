@@ -1,7 +1,8 @@
-import React from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import React, {useContext} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import './nav.css';
+import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import { UserLogoutActions } from '../../Actions/User/UserLogoutActions';
 import { ExaminationActions } from '../../Actions/Examination/ExaminationActions';
 import { CaseActions } from '../../Actions/Case/CaseActions';
 import { DiagnosisActions } from '../../Actions/Diagnosis/DiagnosisActions';
@@ -9,17 +10,15 @@ import { InvestigationActions } from '../../Actions/Investigation/InvestigationA
 import { ScoreActions } from '../../Actions/Score/ScoreActions';
 import { historyTakingActions } from '../../Actions/historyTakingQ/historyTakingActions';
 import { TimeActions } from '../../Actions/Time/TimeActions';
-import { UserLogoutActions } from '../../Actions/User/UserLogoutActions';
+import {CaseContext} from "../../context/CaseContext";
 
-function Navbar() {
+const Navbar = () => {
   const { userInfomation } = useSelector((state) => state.user);
-  const { selectedCaseDetails } = useSelector((state) => state.caseSelected);
+  const { selectedCaseDetails } = useContext(CaseContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleClick2 = (e) => {
-    e.preventDefault(); // Prevent form submission
-    console.log("logout");
+  const handleLogout = () => {
     dispatch(UserLogoutActions.logout());
     dispatch(ExaminationActions.clearhistory());
     dispatch(CaseActions.clearhistory());
@@ -30,34 +29,28 @@ function Navbar() {
     dispatch(TimeActions.clearhistory());
     const signInDiv = document.getElementById("signInDiv");
     if (signInDiv) {
-      signInDiv.hidden = false; // Ensure the sign-in button is visible upon logout
+      signInDiv.style.display = "block"; // Ensure the sign-in button is visible upon logout
     }
     navigate("/");
   };
 
   return (
-      <div>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-          <div className="container-fluid">
-            <a className="navbar-brand" href="#">Hi {userInfomation.name}</a>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarColor01">
-              <ul className="navbar-nav me-auto">
-                <li className="nav-item">
-                  {selectedCaseDetails ?
-                      <a className="nav-link">{selectedCaseDetails.caseId}</a> : null }
-                </li>
-              </ul>
-              <form className="d-flex">
-                <button className="btn btn-secondary my-2 my-sm-0" type="button" onClick={handleClick2}>Logout</button>
-              </form>
-            </div>
-          </div>
-        </nav>
-      </div>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Hi {userInfomation.name}
+          </Typography>
+          {selectedCaseDetails && (
+              <Typography variant="body1" component="div" sx={{ flexGrow: 1 }}>
+                {selectedCaseDetails.caseId}
+              </Typography>
+          )}
+          <Button color="inherit" onClick={handleLogout}>
+            Logout
+          </Button>
+        </Toolbar>
+      </AppBar>
   );
-}
+};
 
 export default Navbar;
