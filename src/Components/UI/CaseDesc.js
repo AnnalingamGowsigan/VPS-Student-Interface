@@ -15,6 +15,8 @@ import Conversation from "../Conversation";
 import NavigationButtons from '../NavigationButtons';
 import imagedoc from "../../Images/doc.gif";
 import imagepet from "../../Images/pat.gif";
+import {CaseContext} from "../../context/CaseContext";
+
 
 const CaseDesc = () => {
     const { setCaseData } = useContext(CaseDataContext);
@@ -22,7 +24,7 @@ const CaseDesc = () => {
     const { userInfomation } = useSelector((state) => state.user);
     const { sectionOrder } = useSelector((state) => state.historyQ);
     const { selectedQdata } = useSelector((state) => state.historyQ);
-    const { selectedCaseDetails } = useSelector((state) => state.caseSelected);
+    const { selectedCaseDetails } = useContext(CaseContext);
     const { isSubmitDiagnosis } = useSelector((state) => state.diagnosisQ);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -45,12 +47,13 @@ const CaseDesc = () => {
 
     const fetchQuestions = async (caseDetails) => {
         try {
-            console.log(caseDetails)
+            console.log("case details history taking",caseDetails)
             const response = await axios.post(`${BASE_URL}dentalComplaintCases/getCaseHistoryTakingQuestions`, {
                 caseId: caseDetails.caseId,
                 mainComplaintType: caseDetails.mainComplaintType,
                 caseName: caseDetails.caseName,
             });
+            console.log("history taking fetched data",response)
             return response.data;
         } catch (error) {
             console.error('Error fetching questions:', error);
@@ -73,7 +76,7 @@ const CaseDesc = () => {
 
     const handleSection = (eventKey) => {
         setSelectedSection(eventKey);
-        const filteredQuestions = questions[eventKey].map((item, index) => ({
+        const filteredQuestions = (questions[eventKey] || []).map((item, index) => ({
             id: index,
             q: item.questionText,
             a: item.answer,
@@ -92,7 +95,7 @@ const CaseDesc = () => {
         let totalMarks = 0;
         selectedQIds.forEach((id) => {
             for (const category in questions) {
-                const question = questions[category].find((q, index) => index === id);
+                const question = (questions[category] || []).find((q, index) => index === id);
                 if (question && question.required !== undefined) {
                     totalMarks += question.required ? 10 : -5;
                 }
@@ -102,7 +105,7 @@ const CaseDesc = () => {
         const sel = selectedQ.map((item) => item.q);
         const correctAnswersArray = [];
         for (const category in questions) {
-            const correctAnswers = questions[category].filter(
+            const correctAnswers = (questions[category] || []).filter(
                 (question) => question.required
             );
             correctAnswersArray.push(...correctAnswers);
@@ -138,6 +141,7 @@ const CaseDesc = () => {
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
+                overflowX: "hidden"
             }}
         >
             <div className="navText">

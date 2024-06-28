@@ -35,11 +35,15 @@ const Dropdowns = ({ handleSection, handleSelect, questionsForDropdown, selected
                         onSelect={handleSelect}
                         variant="success"
                     >
-                        {questionsForDropdown.map((question) => (
-                            <Dropdown.Item eventKey={question.id} key={question.id}>
-                                {question.q}
-                            </Dropdown.Item>
-                        ))}
+                        {questionsForDropdown.length > 0 ? (
+                            questionsForDropdown.map((question) => (
+                                <Dropdown.Item eventKey={question.id} key={question.id}>
+                                    {question.q}
+                                </Dropdown.Item>
+                            ))
+                        ) : (
+                            <Dropdown.Item disabled>No questions available</Dropdown.Item>
+                        )}
                     </DropdownButton>
                 </div>
             </Grid>
