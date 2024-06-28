@@ -17,15 +17,11 @@ const Dropdowns = ({ handleSection, handleSelect, questionsForDropdown, selected
                         Select the section
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item eventKey="dhistory">Dietary history</Dropdown.Item>
-                        <Dropdown.Item eventKey="habits">Habits</Dropdown.Item>
-                        <Dropdown.Item eventKey="complaint">History of the presenting complaint</Dropdown.Item>
-                        <Dropdown.Item eventKey="medicalH">Medical history</Dropdown.Item>
-                        <Dropdown.Item eventKey="plaque">Plaque control</Dropdown.Item>
-                        {selectedCaseDetails.caseId === "C001" && (
-                            <Dropdown.Item eventKey="pretreate">Previous dental treatments</Dropdown.Item>
-                        )}
-                        <Dropdown.Item eventKey="shistory">Social history</Dropdown.Item>
+                        <Dropdown.Item eventKey="General Questions">General Questions</Dropdown.Item>
+                        <Dropdown.Item eventKey="Medical History">Medical History</Dropdown.Item>
+                        <Dropdown.Item eventKey="Smoking and drinking habits">Smoking and drinking habits</Dropdown.Item>
+                        <Dropdown.Item eventKey="Dietary history">Dietary history</Dropdown.Item>
+                        <Dropdown.Item eventKey="Others">Others</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </Grid>

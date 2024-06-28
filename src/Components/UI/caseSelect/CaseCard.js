@@ -9,6 +9,7 @@ const CaseCard = ({ caseSelectedInUI }) => {
 
     const handleClick = () => {
         setSelectedCaseDetails(caseSelectedInUI);
+        console.log("Selected case",caseSelectedInUI)
         navigate("/historyTaking");
     };
 

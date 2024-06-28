@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
+import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Grid } from "@mui/material";
 import img2 from "../../Images/bkk.jpg";
 import Navbar from "../Navbar";
 import { CaseDataContext } from '../../CaseDataContext';
-import {questions} from "../questions";
+import BASE_URL from '../../config'; // Adjust the path as necessary
+
 import Instructions from "../Instructions";
 import Dropdowns from "../Dropdowns";
 import SectionTitle from "../SectionTitle";
@@ -29,22 +31,59 @@ const CaseDesc = () => {
     const [Section, setSection] = useState("");
     const [ans, setAns] = useState("");
     const [selectedSection, setSelectedSection] = useState(null);
+    const [questions, setQuestions] = useState({
+        'General Questions': [],
+        'Medical History': [],
+        'Smoking and drinking habits': [],
+        'Dietary history': [],
+        'Others': []
+    });
     const [questionsForDropdown, setQuestionsForDropdown] = useState([]);
     const [selectedQ, setSelectedQ] = useState([]);
     const [selectedQIds, setSelectedQIds] = useState([]);
     const endOfContentRef = useRef(null);
 
+    const fetchQuestions = async (caseDetails) => {
+        try {
+            console.log(caseDetails)
+            const response = await axios.post(`${BASE_URL}dentalComplaintCases/getCaseHistoryTakingQuestions`, {
+                caseId: caseDetails.caseId,
+                mainComplaintType: caseDetails.mainComplaintType,
+                caseName: caseDetails.caseName,
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching questions:', error);
+            throw error;
+        }
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await fetchQuestions(selectedCaseDetails);
+                setQuestions(data);
+            } catch (error) {
+                console.error('Failed to fetch questions:', error);
+            }
+        };
+
+        fetchData();
+    }, [selectedCaseDetails]);
+
     const handleSection = (eventKey) => {
         setSelectedSection(eventKey);
-        const filteredQuestions = questions[eventKey].map((item) => ({
-            id: item.id,
-            q: item.q,
+        const filteredQuestions = questions[eventKey].map((item, index) => ({
+            id: index,
+            q: item.questionText,
+            a: item.answer,
+            required: item.required
         }));
         setQuestionsForDropdown(filteredQuestions);
     };
 
     const handleSelect = (eventKey) => {
-        const selectedQuestion = questions[selectedSection].find((q) => q.id === eventKey);
+        const selectedQuestion = questionsForDropdown.find((q) => q.id === parseInt(eventKey));
         setSelectedQ((prevSelectedQ) => [...prevSelectedQ, selectedQuestion]);
         setSelectedQIds((prevSelectedQIds) => [...prevSelectedQIds, selectedQuestion.id]);
     };
@@ -53,9 +92,9 @@ const CaseDesc = () => {
         let totalMarks = 0;
         selectedQIds.forEach((id) => {
             for (const category in questions) {
-                const question = questions[category].find((q) => q.id === id);
-                if (question && question.correctness !== undefined) {
-                    totalMarks += question.correctness ? 10 : -5;
+                const question = questions[category].find((q, index) => index === id);
+                if (question && question.required !== undefined) {
+                    totalMarks += question.required ? 10 : -5;
                 }
             }
         });
@@ -64,13 +103,13 @@ const CaseDesc = () => {
         const correctAnswersArray = [];
         for (const category in questions) {
             const correctAnswers = questions[category].filter(
-                (question) => question.correctness
+                (question) => question.required
             );
             correctAnswersArray.push(...correctAnswers);
         }
 
         console.log("Total Marks:", totalMarks);
-        console.log("slected ans", sel);
+        console.log("selected ans", sel);
         console.log("correct ans", correctAnswersArray);
         window.scrollTo({ top: 0, behavior: "smooth" });
 
