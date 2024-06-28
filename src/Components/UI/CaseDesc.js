@@ -149,7 +149,7 @@ const CaseDesc = () => {
             </div>
             <div></div>
             <div className="phtopic1">Patient History Taking</div>
-            <div className="phtopic2">Case {selectedCaseDetails.caseName}: {selectedCaseDetails.description}</div>
+            <div className="phtopic2">{selectedCaseDetails.caseName}: {selectedCaseDetails.caseScenario}</div>
             <div style={{ marginTop: '20px', marginBottom: '20px' }}>
                 <hr style={{ borderTop: '3px solid #bbb' }} />
             </div>
