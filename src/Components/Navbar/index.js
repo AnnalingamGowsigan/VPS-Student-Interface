@@ -42,7 +42,7 @@ const Navbar = () => {
           </Typography>
           {selectedCaseDetails && (
               <Typography variant="body1" component="div" sx={{ flexGrow: 1 }}>
-                {selectedCaseDetails.caseId}
+                {selectedCaseDetails.caseName}
               </Typography>
           )}
           <Button color="inherit" onClick={handleLogout}>
