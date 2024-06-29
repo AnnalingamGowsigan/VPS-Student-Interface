@@ -12,7 +12,8 @@ import Config from './Config/Config';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import storage from 'redux-persist/lib/storage';
-import {CaseProvider} from "./context/CaseContext"; // defaults to localStorage for web
+import {CaseProvider} from "./context/CaseContext";
+import {StepProvider} from "./context/StepContext"; // defaults to localStorage for web
 
 const persistConfig = {
   key: 'root',
@@ -39,7 +40,9 @@ ReactDOM.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
           <CaseProvider>
-            <App />
+              <StepProvider>
+                  <App />
+              </StepProvider>
           </CaseProvider>
       </PersistGate>
     </Provider>,
