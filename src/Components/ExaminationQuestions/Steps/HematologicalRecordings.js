@@ -30,7 +30,7 @@ const HematologicalRecordings = ({ onComplete }) => {
     useEffect(() => {
         const fetchQuestions = async () => {
             try {
-                const url = `${BASE_URL}examintionQuestions/getAllExaminationQuestionsBySectionName?mainTypeName=${selectedCaseDetails.mainComplaintType}&complaintTypeName=${selectedCaseDetails.caseName}&caseId=${selectedCaseDetails.caseId}&sectionName=PeriodontalScreeningQuestions`;
+                const url = `${BASE_URL}examintionQuestions/getAllExaminationQuestionsBySectionName?mainTypeName=${selectedCaseDetails.mainComplaintType}&complaintTypeName=${selectedCaseDetails.caseName}&caseId=${selectedCaseDetails.caseId}&sectionName=HematologicalRecordings`;
                 console.log("url", url);
                 const response = await axios.get(url);
                 console.log("response perdotelscreening", response);
