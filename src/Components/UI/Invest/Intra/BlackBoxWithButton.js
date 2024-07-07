@@ -462,7 +462,7 @@ const BlackBoxWithButton = ({unityData, sendMessageToUnity}) => {
                 <CheckBoxQuestion
                     question="Select the features of the instrument used for the periodontal screening."
                     answers={periodontalScreeningOptions}
-                    onCheckboxChange={handleCheckboxChange} // You may need to create a new handler for this set of options
+                    onCheckboxChange={handleCheckboxChange} // You may needFsubmit to create a new handler for this set of options
                 />
             );
         } else if (step === 5) {

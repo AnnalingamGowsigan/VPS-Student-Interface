@@ -6,7 +6,7 @@ import TitleBox from "../TitleBox";
 import QuestionBox from "../QuestionBox";
 import QuestionComponent from "../QuestionComponent";
 
-const Diagnosis = ({ onComplete }) => {
+const OtherCharts = ({ onComplete }) => {
     const { selectedCaseDetails } = useContext(CaseContext);
     const boxStyle = {
         width: "30%",
@@ -81,4 +81,4 @@ const Diagnosis = ({ onComplete }) => {
     );
 };
 
-export default Diagnosis;
+export default OtherCharts;

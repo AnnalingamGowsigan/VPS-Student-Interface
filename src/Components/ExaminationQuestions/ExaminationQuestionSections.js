@@ -8,10 +8,16 @@ import Radiographs from "./Steps/Radiographs";
 import SensibilityRecordings from "./Steps/SensibilityRecordings";
 import HematologicalRecordings from "./Steps/HematologicalRecordings";
 import Diagnosis from "./Steps/Diagnosis";
+import DentalChart from "../Dental Charts/DentalChart";
+import OtherCharts from "./Steps/OtherCharts";
 
 const ExaminationQuestionSections = () => {
-    const { step } = useContext(StepContext);
+    const { step, incrementStep } = useContext(StepContext);
     const [section, setSection] = useState(0);
+
+    const handleComplete = () => {
+        incrementStep(step + 1);
+    };
 
     useEffect(() => {
         setSection(step);
@@ -20,21 +26,25 @@ const ExaminationQuestionSections = () => {
     return (
         <div>
             {section === 0 ? (
-                <PeriodontalScreening />
+                <PeriodontalScreening onComplete={handleComplete} />
             ) : section === 1 ? (
-                <SoftTissueAssessment />
+                <SoftTissueAssessment onComplete={handleComplete} />
             ) : section === 2 ? (
-                <HardTissueAssessment />
+                <HardTissueAssessment onComplete={handleComplete} />
             ) : section === 3 ? (
-                <Investigations />
+                <DentalChart onComplete={handleComplete} />
             ) : section === 4 ? (
-                <Radiographs />
+                <OtherCharts onComplete={handleComplete} />
             ) : section === 5 ? (
-                <SensibilityRecordings />
+                <Investigations onComplete={handleComplete} />
             ) : section === 6 ? (
-                <HematologicalRecordings />
+                <Radiographs onComplete={handleComplete} />
             ) : section === 7 ? (
-                <Diagnosis />
+                <SensibilityRecordings onComplete={handleComplete} />
+            ) : section === 8 ? (
+                <HematologicalRecordings onComplete={handleComplete} />
+            ) : section === 9 ? (
+                <Diagnosis onComplete={handleComplete} />
             ) : null}
         </div>
     );
