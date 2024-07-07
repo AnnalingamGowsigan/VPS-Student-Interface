@@ -63,7 +63,7 @@ const OtherCharts = ({ onComplete }) => {
         }
     };
 
-    const title = "INTRA ORAL EXAMINATION";
+    const title = "Other Charts";
     const subTitle = "Periodontal Screening";
 
     return (

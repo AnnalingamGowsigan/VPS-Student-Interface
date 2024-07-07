@@ -63,8 +63,8 @@ const Radiographs = ({ onComplete }) => {
         }
     };
 
-    const title = "INTRA ORAL EXAMINATION";
-    const subTitle = "Periodontal Screening";
+    const title = "Radiographs";
+    const subTitle = "";
 
     return (
         <div style={boxStyle}>

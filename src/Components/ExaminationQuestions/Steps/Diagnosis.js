@@ -63,8 +63,8 @@ const Diagnosis = ({ onComplete }) => {
         }
     };
 
-    const title = "INTRA ORAL EXAMINATION";
-    const subTitle = "Periodontal Screening";
+    const title = "Diagnosis";
+    const subTitle = "";
 
     return (
         <div style={boxStyle}>

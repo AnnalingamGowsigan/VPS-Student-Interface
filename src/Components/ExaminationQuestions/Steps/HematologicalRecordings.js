@@ -63,8 +63,8 @@ const HematologicalRecordings = ({ onComplete }) => {
         }
     };
 
-    const title = "INTRA ORAL EXAMINATION";
-    const subTitle = "Periodontal Screening";
+    const title = "Other Investigations";
+    const subTitle = "";
 
     return (
         <div style={boxStyle}>

@@ -63,8 +63,8 @@ const SensibilityRecordings = ({ onComplete }) => {
         }
     };
 
-    const title = "INTRA ORAL EXAMINATION";
-    const subTitle = "Periodontal Screening";
+    const title = "Sensibility Recordings";
+    const subTitle = "";
 
     return (
         <div style={boxStyle}>

@@ -63,8 +63,8 @@ const SoftTissueAssessment = ({ onComplete }) => {
         }
     };
 
-    const title = "INTRA ORAL EXAMINATION";
-    const subTitle = "Periodontal Screening";
+    const title = "Soft Tissue Assessment";
+    const subTitle = "";
 
     return (
         <div style={boxStyle}>

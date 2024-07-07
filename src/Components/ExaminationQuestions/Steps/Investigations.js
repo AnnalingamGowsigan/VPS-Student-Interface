@@ -63,7 +63,7 @@ const Investigations = ({ onComplete }) => {
         }
     };
 
-    const title = "INTRA ORAL EXAMINATION";
+    const title = "Investigations";
     const subTitle = "Periodontal Screening";
 
     return (
