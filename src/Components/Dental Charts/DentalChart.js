@@ -32,7 +32,7 @@ const answer = {
   },
 };
 
-const DentalChart = ({ onScoreSubmit }) => {
+const DentalChart = ({ onScoreSubmit,onComplete }) => {
   const [toothSelections, setToothSelections] = useState({});
   const [allToothSelections, setAllToothSelections] = useState({});
 
@@ -91,14 +91,15 @@ const DentalChart = ({ onScoreSubmit }) => {
   };
 
   const handleSubmit = () => {
-    const { score, totalCorrectAnswers } = calculateScore(
-      allToothSelections,
-      answer
-    );
-    console.log(`The user's score is ${score} out of ${totalCorrectAnswers}.`);
-    
-    // Call the onScoreSubmit callback with the score data
-    onScoreSubmit(score, totalCorrectAnswers);
+    // const { score, totalCorrectAnswers } = calculateScore(
+    //   allToothSelections,
+    //   answer
+    // );
+    // console.log(`The user's score is ${score} out of ${totalCorrectAnswers}.`);
+    //
+    // // Call the onScoreSubmit callback with the score data
+    // onScoreSubmit(score, totalCorrectAnswers);
+    onComplete();
   };
 
   // Function to decide if it's a Tooth or MTooth based on number

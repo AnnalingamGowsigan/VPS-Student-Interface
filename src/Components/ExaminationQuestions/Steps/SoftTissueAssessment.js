@@ -1,5 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {CaseContext} from "../../../context/CaseContext";
+import React, { useContext, useEffect, useState } from 'react';
+import { CaseContext } from "../../../context/CaseContext";
 import BASE_URL from "../../../config";
 import axios from "axios";
 import TitleBox from "../TitleBox";
@@ -52,7 +52,7 @@ const SoftTissueAssessment = ({ onComplete }) => {
         };
 
         fetchQuestions();
-    }, []);
+    }, [selectedCaseDetails]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
