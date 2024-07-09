@@ -1,8 +1,11 @@
 import "./Chart.css";
 import BackTooth from "../DentalChartTooth/BackTooth.jsx";
 import FrontTooth from "../DentalChartTooth/FrontTooth.jsx";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Box, Button, Grid } from "@mui/material";
+import TitleBox from "../ExaminationQuestions/TitleBox";
+import QuestionBox from "../ExaminationQuestions/QuestionBox";
+import QuestionComponent from "../ExaminationQuestions/QuestionComponent";
 
 // DentalChart component
 const DentalChart = ({ onScoreSubmit,onComplete }) => {
@@ -431,19 +434,25 @@ const DentalChart = ({ onScoreSubmit,onComplete }) => {
     }));
   };
 
+  const boxStyle = {
+    width: "30%",
+    height: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "start",
+    marginRight: "300px",
+  };
+
+  const title = "INTRA ORAL EXAMINATION";
+  const subTitle = "Periodontal Screening";
+
   return (
     <div>
-      <Grid container justifyContent="center">
-        <Grid
-          item
-          xs={12}
-          sm={11}
-          sx={{ boxShadow: 3, padding: 2, borderRadius: 1 }}
-        >
-          <p style={{ textAlign: "center", marginBottom: "20px" }}>
-            Click on a tooth box to select its options
-          </p>
+      <div style={boxStyle}>
+        <TitleBox title={title} subTitle={subTitle} />
+      </div>
           {/* Upper Row */}
+      <div>
           <div className="dental-chart">
             <div>
               <p>18</p>
@@ -582,8 +591,7 @@ const DentalChart = ({ onScoreSubmit,onComplete }) => {
         Submit
       </button>
           </Box>
-        </Grid>
-      </Grid>
+      </div>
     </div>
   );
 };
