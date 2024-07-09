@@ -59,8 +59,8 @@ function SignIn() {
     /*global google*/
     google.accounts.id.initialize({
       client_id:
-        //"943712076133-fq8m71b1trdlhs6sgvhubp8nhla5pnel.apps.googleusercontent.com",
-      "784867083454-spuacei6js25fji5ibsr5vn3cevr88gf.apps.googleusercontent.com",
+        // "943712076133-fq8m71b1trdlhs6sgvhubp8nhla5pnel.apps.googleusercontent.com",
+        "784867083454-spuacei6js25fji5ibsr5vn3cevr88gf.apps.googleusercontent.com",
       callback: handleCallbackResponse,
     });
     google.accounts.id.renderButton(document.getElementById("signInDiv"), {
@@ -72,36 +72,36 @@ function SignIn() {
 
   if (Object.keys(user).length === 0 || !isSignIn) {
     return (
-        <div
-            className="background"
-            style={{
-              backgroundImage: `url(${img3})`,
-              height: "100vh",
-              marginTop: "0px",
-              fontSize: "18px",
-              backgroundSize: "cover",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              color: "#fff",
-            }}
-        >
-          <div className="header">
-            <h1>Virtual Patient Simulator</h1>
-            <h2>for Skill Training in Dentistry </h2>
-          </div>
-          <div className="authent">
-            <Button className="relative" id="signInDiv" variant="light"></Button>
-            <p id="errorM"></p>
-          </div>
+      <div
+        className="background"
+        style={{
+          backgroundImage: `url(${img3})`,
+          height: "100vh",
+          marginTop: "0px",
+          fontSize: "18px",
+          backgroundSize: "cover",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          color: "#fff",
+        }}
+      >
+        <div className="header">
+          <h1>Virtual Patient Simulator</h1>
+          <h2>for Skill Training in Dentistry </h2>
         </div>
+        <div className="authent">
+          <Button className="relative" id="signInDiv" variant="light"></Button>
+          <p id="errorM"></p>
+        </div>
+      </div>
     );
   } else {
     return (
-        <div>
-          <CaseSelect />
-        </div>
+      <div>
+        <CaseSelect />
+      </div>
     );
   }
 }

@@ -1,95 +1,398 @@
-import React, { useState, useCallback } from "react";
-import Tooth from "./Tooth"; // Your Tooth component
-import MTooth from "./MTooth"; // Your MTooth component
 import "./Chart.css";
+import BackTooth from "../DentalChartTooth/BackTooth.jsx";
+import FrontTooth from "../DentalChartTooth/FrontTooth.jsx";
+import { useState } from "react";
+import { Box, Button, Grid } from "@mui/material";
 
-const answer = {
-  17: { leftTrapezoid: ["Caries", "Discoloration"] },
-  48: { leftTrapezoid: ["Caries"] },
-  47: { centerRectangle: ["Caries"] },
-  16: {
-    rightTrapezoid: ["Restoration (Amalgam)"],
-    topTrapezoid: ["Restoration (Amalgam)"],
-    bottomTrapezoid: ["Restoration (Amalgam)"],
-    centerRectangle: ["Restoration (Amalgam)"],
-  },
-  14: {
-    leftTrapezoid: ["Discoloration"],
-  },
-  24: {
-    rightTrapezoid: ["Restoration (Amalgam)"],
-  },
-  25: {
-    centerRectangle: ["Restoration (Amalgam)"],
-    rightTrapezoid: ["Restoration (Amalgam)"],
-  },
-  26: {
-    leftTrapezoid: ["Discoloration"],
-    rightTrapezoid: ["Caries"],
-  },
-  27: {
-    rightTrapezoid: ["Discoloration", "Caries"],
-  },
-};
-
+// DentalChart component
 const DentalChart = ({ onScoreSubmit,onComplete }) => {
-  const [toothSelections, setToothSelections] = useState({});
-  const [allToothSelections, setAllToothSelections] = useState({});
-
-  const handleSelectionChange = useCallback((toothId, newSelections) => {
-    setAllToothSelections((prev) => {
-      // Filter out the parts with no selections
-      const filteredSelections = Object.entries(newSelections)
-        .filter(([_, selections]) => selections.length > 0)
-        .reduce((acc, [part, selections]) => {
-          acc[part] = selections;
-          return acc;
-        }, {});
-
-      // Now check if there are any selections to update
-      if (Object.keys(filteredSelections).length > 0) {
-        return {
-          ...prev,
-          [toothId]: filteredSelections,
-        };
-      }
-
-      // If there are no selections, do not create an empty object entry
-      // Remove the toothId entry if it exists
-      const { [toothId]: _, ...rest } = prev;
-      return rest;
-    });
-  }, []);
-
-  const calculateScore = (userSelections, correctAnswers) => {
-    let score = 0;
-    let totalCorrectAnswers = 0;
-
-    // Calculate the total number of correct answers first
-    Object.values(correctAnswers).forEach((parts) => {
-      Object.values(parts).forEach((conditions) => {
-        totalCorrectAnswers += conditions.length;
-      });
-    });
-
-    for (const [toothId, parts] of Object.entries(correctAnswers)) {
-      const userParts = userSelections[toothId] || {};
-
-      for (const [part, correctConditions] of Object.entries(parts)) {
-        const userConditions = userParts[part] || [];
-
-        // Count how many conditions the user got right for each part
-        correctConditions.forEach((condition) => {
-          if (userConditions.includes(condition)) {
-            score += 1;
-          }
-        });
-      }
-    }
-
-    return { score, totalCorrectAnswers };
-  };
-
+  const [teethDetails, setTeethDetails] = useState([
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth18",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth17",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth16",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth15",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth14",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth13",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth12",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth11",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth21",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth22",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth23",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth24",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth25",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth26",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth27",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth28",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth48",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth47",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth46",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth45",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth44",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth43",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth42",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth41",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth31",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth32",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth33",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth34",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth35",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth36",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth37",
+      cracked: "no",
+    },
+    {
+      discolouration: "no",
+      Veneer: "no",
+      Crown: "no",
+      partiallyErupted: "no",
+      CompositeFilling: "no",
+      isPresent: "yes",
+      cavity: "no",
+      amalgamFilling: "no",
+      toothId: "Tooth38",
+      cracked: "no",
+    },
+  ]);
+  
   const handleSubmit = () => {
     // const { score, totalCorrectAnswers } = calculateScore(
     //   allToothSelections,
@@ -102,60 +405,185 @@ const DentalChart = ({ onScoreSubmit,onComplete }) => {
     onComplete();
   };
 
-  // Function to decide if it's a Tooth or MTooth based on number
-  const isTooth = (number) => {
-    return (
-      (number >= 14 && number <= 19) ||
-      (number >= 24 && number <= 29) ||
-      (number >= 34 && number <= 39) ||
-      (number >= 44 && number <= 49)
-    );
+  const handleToothUpdate = (toothDetail) => {
+    setTeethDetails((prevDetails) => {
+      const updatedDetails = prevDetails.filter(
+        (detail) => detail.toothId !== toothDetail.toothId
+      );
+      return [...updatedDetails, toothDetail];
+    });
   };
 
-  // Create a component array for a row
-  const createRow = (numbers, rowPosition) => {
-    return numbers.map((num) => (
-      <div key={num} className="tooth-container">
-        {rowPosition === "top" && <div className="tooth-number">{num}</div>}
-        {isTooth(num) ? (
-          <MTooth
-            toothNumber={num}
-            onSelectionChange={(num, selections) =>
-              handleSelectionChange(num, selections)
-            }
-          />
-        ) : (
-          <Tooth
-            toothNumber={num}
-            onSelectionChange={(num, selections) =>
-              handleSelectionChange(num, selections)
-            }
-          />
-        )}
-        {rowPosition === "bottom" && <div className="tooth-number">{num}</div>}
-      </div>
-    ));
+  const handleSendDetails = async () => {
+    console.log("teethDetails", teethDetails);
+    const formattedDetails = teethDetails.map((detail) => ({
+      toothId: detail.toothId,
+      isPresent: detail.isPresent,
+      cracked: detail.status === "crack" ? detail.shape : "no",
+      cavity: detail.status === "cavity" ? detail.shape : "no",
+      amalgamFilling: detail.status === "amalgamFilling" ? detail.shape : "no",
+      CompositeFilling: detail.status === "Composite" ? detail.shape : "no",
+      Crown: detail.status === "crown" ? detail.shape : "no",
+      Veneer: detail.status === "veneer" ? detail.shape : "no",
+      discolouration: detail.status === "discolouration" ? detail.shape : "no",
+      partiallyErupted:
+        detail.status === "partiallyErupted" ? detail.shape : "no",
+    }));
   };
-
-  // Numbers for the top and bottom rows
-  const topRowNumbers = [
-    18, 17, 16, 15, 14, 13, 12, 11, 21, 22, 23, 24, 25, 26, 27, 28,
-  ];
-  const bottomRowNumbers = [
-    48, 47, 46, 45, 44, 43, 42, 41, 31, 32, 33, 34, 35, 36, 37, 38,
-  ];
 
   return (
-    <div className="dental-chart">
-      <div className="dental-row top-row">
-        {createRow(topRowNumbers, "top")}
-      </div>
-      <div className="dental-row bottom-row">
-        {createRow(bottomRowNumbers, "bottom")}
-      </div>
-      <button onClick={handleSubmit} className="chrt-submit-btn">
+    <div>
+      <Grid container justifyContent="center">
+        <Grid
+          item
+          xs={12}
+          sm={11}
+          sx={{ boxShadow: 3, padding: 2, borderRadius: 1 }}
+        >
+          <p style={{ textAlign: "center", marginBottom: "20px" }}>
+            Click on a tooth box to select its options
+          </p>
+          {/* Upper Row */}
+          <div className="dental-chart">
+            <div>
+              <p>18</p>
+              <BackTooth toothId="Tooth18" onUpdate={handleToothUpdate} />
+            </div>
+            <div>
+              <p>17</p>
+              <BackTooth toothId="Tooth17" onUpdate={handleToothUpdate} />
+            </div>
+            <div>
+              <p>16</p>
+              <BackTooth toothId="Tooth16" onUpdate={handleToothUpdate} />
+            </div>
+            <div>
+              <p>15</p>
+              <BackTooth toothId="Tooth15" onUpdate={handleToothUpdate} />
+            </div>
+            <div>
+              <p>14</p>
+              <BackTooth toothId="Tooth14" onUpdate={handleToothUpdate} />
+            </div>
+            <div>
+              <p>13</p>
+              <FrontTooth toothId="Tooth13" onUpdate={handleToothUpdate} />
+            </div>
+            <div>
+              <p>12</p>
+              <FrontTooth toothId="Tooth12" onUpdate={handleToothUpdate} />
+            </div>
+            <div>
+              <p>11</p>
+              <FrontTooth toothId="Tooth11" onUpdate={handleToothUpdate} />
+            </div>
+            <div>
+              <p>21</p>
+              <FrontTooth toothId="Tooth21" onUpdate={handleToothUpdate} />
+            </div>
+            <div>
+              <p>22</p>
+              <FrontTooth toothId="Tooth22" onUpdate={handleToothUpdate} />
+            </div>
+            <div>
+              <p>23</p>
+              <FrontTooth toothId="Tooth23" onUpdate={handleToothUpdate} />
+            </div>
+            <div>
+              <p>24</p>
+              <BackTooth toothId="Tooth24" onUpdate={handleToothUpdate} />
+            </div>
+            <div>
+              <p>25</p>
+              <BackTooth toothId="Tooth25" onUpdate={handleToothUpdate} />
+            </div>
+            <div>
+              <p>26</p>
+              <BackTooth toothId="Tooth26" onUpdate={handleToothUpdate} />
+            </div>
+            <div>
+              <p>27</p>
+              <BackTooth toothId="Tooth27" onUpdate={handleToothUpdate} />
+            </div>
+            <div>
+              <p>28</p>
+              <BackTooth toothId="Tooth28" onUpdate={handleToothUpdate} />
+            </div>
+          </div>
+          {/* Lower Row */}
+          <div className="dental-chart">
+            <div>
+              <BackTooth toothId="Tooth48" onUpdate={handleToothUpdate} />
+              <p>48</p>
+            </div>
+            <div>
+              <BackTooth toothId="Tooth47" onUpdate={handleToothUpdate} />
+              <p>47</p>
+            </div>
+            <div>
+              <BackTooth toothId="Tooth46" onUpdate={handleToothUpdate} />
+              <p>46</p>
+            </div>
+            <div>
+              <BackTooth toothId="Tooth45" onUpdate={handleToothUpdate} />
+              <p>45</p>
+            </div>
+            <div>
+              <BackTooth toothId="Tooth44" onUpdate={handleToothUpdate} />
+              <p>44</p>
+            </div>
+            <div>
+              <FrontTooth toothId="Tooth43" onUpdate={handleToothUpdate} />
+              <p>43</p>
+            </div>
+            <div>
+              <FrontTooth toothId="Tooth42" onUpdate={handleToothUpdate} />
+              <p>42</p>
+            </div>
+            <div>
+              <FrontTooth toothId="Tooth41" onUpdate={handleToothUpdate} />
+              <p>41</p>
+            </div>
+            <div>
+              <FrontTooth toothId="Tooth31" onUpdate={handleToothUpdate} />
+              <p>31</p>
+            </div>
+            <div>
+              <FrontTooth toothId="Tooth32" onUpdate={handleToothUpdate} />
+              <p>32</p>
+            </div>
+            <div>
+              <FrontTooth toothId="Tooth33" onUpdate={handleToothUpdate} />
+              <p>33</p>
+            </div>
+            <div>
+              <BackTooth toothId="Tooth34" onUpdate={handleToothUpdate} />
+              <p>34</p>
+            </div>
+            <div>
+              <BackTooth toothId="Tooth35" onUpdate={handleToothUpdate} />
+              <p>35</p>
+            </div>
+            <div>
+              <BackTooth toothId="Tooth36" onUpdate={handleToothUpdate} />
+              <p>36</p>
+            </div>
+            <div>
+              <BackTooth toothId="Tooth37" onUpdate={handleToothUpdate} />
+              <p>37</p>
+            </div>
+            <div>
+              <BackTooth toothId="Tooth38" onUpdate={handleToothUpdate} />
+              <p>38</p>
+            </div>
+          </div>
+          <Box display="flex" justifyContent="flex-end" mt={2}>
+          <button onClick={handleSubmit} className="chrt-submit-btn">
         Submit
       </button>
+          </Box>
+        </Grid>
+      </Grid>
     </div>
   );
 };
